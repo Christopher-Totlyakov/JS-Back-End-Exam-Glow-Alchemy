@@ -30,9 +30,11 @@
 </article>
 
 <div class="command">
+    {{#if isOwner}}
     <a href="#">Edit</a>
-    <a href="#">Delete</a>
-
+    <a href="/products/{{productDetails.id}}/delete">Delete</a>
+    {{else if isAuthenticated}}
     <a href="#">Recommend</a>
     <p>You've already recommended this product!</p>
+    {{/if}}
 </div>

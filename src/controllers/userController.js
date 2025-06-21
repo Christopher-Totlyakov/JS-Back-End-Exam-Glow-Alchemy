@@ -28,10 +28,10 @@ userControler.get("/login", isGuest, (req, res) =>{
 })
 
 userControler.post("/login", isGuest, async (req, res) => {
-    const {username, password} = req.body;
+    const {email, password} = req.body;
 
     try {
-        const token = await userService.login(username, password);
+        const token = await userService.login(email, password);
         res.cookie('auth', token);
 
         res.redirect('/');

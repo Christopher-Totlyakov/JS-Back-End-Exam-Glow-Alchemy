@@ -9,7 +9,7 @@ export default {
             throw new Error("password not the same");
         }
 
-        const user = await User.findOne({ username: userData.username });
+        const user = await User.findOne({ email: userData.email });
 
         if (user) {
             throw new Error("User already exists");
@@ -19,8 +19,8 @@ export default {
         const token = await generateAuthToken(newUser);
         return token;
     },
-    async login(username, password){
-        const user  = await User.findOne({username});
+    async login(email, password){
+        const user  = await User.findOne({email});
 
         if (!user) {
             throw new Error('user not exist');

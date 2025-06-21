@@ -42,11 +42,25 @@ productController.get("/:id/details", async (req, res) => {
     try {
         const productDetails = await productService.getByID(productId);
         const recommendCount = productDetails.recommendList.length;
-        res.render('product/details', { productDetails, recommendCount })
+        const isOwner = productDetails.owner == req.user?.id;
+        const isAuthenticated = req.isAuthenticated;
+
+        res.render('product/details', { productDetails, recommendCount, isOwner, isAuthenticated })
     } catch (err) {
         res.render('404', { error: getErrorMessage(err)});
     }
    
+});
+
+productController.get("/:id/delete", async (req, res) => {
+    const productId = req.params.id;
+    try {
+        await productService.delete(productId, req.user.id);
+        res.redirect("/products");
+    } catch (err) {
+        res.render("404", { error: getErrorMessage(err) } );
+    }
+
 });
 
 export default productController;
