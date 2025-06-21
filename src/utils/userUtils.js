@@ -7,7 +7,8 @@ const jwtPromisSign = util.promisify(jsonwebtoken.sign);
 export async function generateAuthToken(user) {
     const payload = {
         id: user.id,
-        username: user.username,
+        email: user.email,
+        name: user.name,
     }
 
     const token = await jwtPromisSign(payload, JWT_SECRET, { expiresIn: '2h' });
