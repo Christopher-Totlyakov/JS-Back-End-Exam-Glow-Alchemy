@@ -13,11 +13,24 @@ export default {
     },
     async delete(productId, userId) {
         const product = await Cosmetic.findById(productId);
-        console.log(product.owner)
-        console.log(userId)
+        
         if (product.owner != userId) {
             throw new Error("You are not owner");
         }  
-        // await Cosmetic.findByIdAndDelete(product.id);
+        await Cosmetic.findByIdAndDelete(product.id);
     },
+    async edit(productId, updatedData, userId) {
+        const product = await Cosmetic.findById(productId);
+
+        if (!product) {
+            throw new Error("Product not found");
+        }
+
+        if (product.owner.toString() !== userId) {
+            throw new Error("You are not the owner");
+        }
+
+        await Cosmetic.findByIdAndUpdate(productId, updatedData, { runValidators: true });
+    }
+    
 }

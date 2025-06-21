@@ -63,4 +63,32 @@ productController.get("/:id/delete", async (req, res) => {
 
 });
 
+productController.get("/:id/edit", async (req, res) => {
+    const productId = req.params.id;
+    try {
+        const product = await productService.getByID(productId);
+
+        if (product.owner != req.user?.id) {
+            throw new Error('You are no owner');
+        }
+        res.render("product/edit", { product });
+    } catch (err) {
+        res.render("404", { error: getErrorMessage(err) });
+    }
+
+});
+productController.post("/:id/edit", async (req, res) => {
+    const productId = req.params.id;
+    const updatedData = req.body;
+    const userId = req.user.id;
+
+    try {
+        await productService.edit(productId, updatedData, userId);
+        res.redirect("/products");
+    } catch (err) {
+        res.render("404", { error: getErrorMessage(err) });
+    }
+});
+
+
 export default productController;

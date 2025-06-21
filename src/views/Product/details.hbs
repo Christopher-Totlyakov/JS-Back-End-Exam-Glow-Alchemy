@@ -31,7 +31,7 @@
 
 <div class="command">
     {{#if isOwner}}
-    <a href="#">Edit</a>
+    <a href="/products/{{productDetails.id}}/edit">Edit</a>
     <a href="/products/{{productDetails.id}}/delete">Delete</a>
     {{else if isAuthenticated}}
     <a href="#">Recommend</a>
