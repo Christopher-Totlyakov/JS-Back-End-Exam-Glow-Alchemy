@@ -1,26 +1,39 @@
 import { Router } from "express";
 import { getErrorMessage } from "../utils/errorUtils.js";
 import productService from "../services/productService.js";
+import { isAuth, isGuest } from "../middlewares/authMiddlewares.js";
+
 
 
 const productController = Router();
 
-productController.get("/create", (req,res) =>{
+productController.get("/create", isAuth, (req,res) =>{
     res.render('product/create');
 });
 
-productController.post("/create", async (req, res) => {
+productController.post("/create", isAuth, async (req, res) => {
     
     let productData = req.body;
     productData.owner = req.user.id
     try {
         await productService.createProduct(productData)
+        res.redirect('/products');
     } catch (err) {
         res.render('product/create', { error: getErrorMessage(err), product: req.body });
     }
 
-    res.render('product/create');
 
+});
+
+productController.get("/",async (req, res) => {
+
+    try {
+        const products = await productService.getAll();
+        res.render('product/catalog', { products });
+    } catch (err) {
+        res.render('product/catalog', { error: getErrorMessage(err), products } );
+
+    }
 });
 
 export default productController;
