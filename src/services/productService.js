@@ -7,5 +7,8 @@ export default {
     },
     async getAll(){
         return await Cosmetic.find();
-    }
+    },
+    async getByID(id) {
+        return await Cosmetic.findById(id);
+    },
 }

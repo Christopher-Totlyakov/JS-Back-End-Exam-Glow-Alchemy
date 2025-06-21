@@ -36,4 +36,17 @@ productController.get("/",async (req, res) => {
     }
 });
 
+productController.get("/:id/details", async (req, res) => {
+    const productId = req.params.id;
+
+    try {
+        const productDetails = await productService.getByID(productId);
+        const recommendCount = productDetails.recommendList.length;
+        res.render('product/details', { productDetails, recommendCount })
+    } catch (err) {
+        res.render('404', { error: getErrorMessage(err)});
+    }
+   
+});
+
 export default productController;
