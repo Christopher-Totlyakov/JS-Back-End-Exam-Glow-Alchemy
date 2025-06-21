@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 async function initDatabase(){
     const dbUrl = 'mongodb://admin:admin@localhost:27017/?authSource=admin';
-    const dbName = 'test_db';
+    const dbName = 'Glow_Alchemy_db';
 
     try {
         await mongoose.connect(dbUrl, { dbName });
